@@ -1,0 +1,103 @@
+// Sample messy SCSS — used to test the SCSS Manager extension.
+// Should trigger: nesting, variable, duplicate, redundancy suggestions.
+
+/* ─── Variable candidates (same hex appears many times) ───────────────── */
+
+.button {
+  background: #3498db;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.link {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.header-bar {
+  background: #3498db;
+  color: #ffffff;
+  padding: 16px 24px;
+}
+
+.alert {
+  border-color: #3498db;
+}
+
+/* ─── Nesting opportunities (repeated parent selectors) ───────────────── */
+
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.card .header {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.card .body {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.card .footer {
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card.active {
+  border: 2px solid #3498db;
+}
+
+/* ─── Near-duplicate rules ─────────────────────────────────────────── */
+
+.btn-primary {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: #3498db;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button-blue {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: #3498db;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ─── Redundancies ─────────────────────────────────────────────────── */
+
+.unused-rule {
+}
+
+.with-dupe-decl {
+  color: red;
+  font-size: 14px;
+  color: red;
+}
+
+.overridden {
+  margin: 10px;
+  margin-left: 20px;
+}
+
+/* ─── More variable candidates ────────────────────────────────────── */
+
+.spacing-a { padding: 16px; }
+.spacing-b { margin: 16px; }
+.spacing-c { gap: 16px; }
+.spacing-d { padding-bottom: 16px; }

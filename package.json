@@ -1,0 +1,415 @@
+{
+  "name": "scss-manager",
+  "displayName": "SCSS Manager",
+  "description": "Complete SCSS workspace manager: nesting & variable refactors, duplicate detection, project-wide statistics, one-click minification with source maps, and CSS → SCSS conversion.",
+  "version": "1.2.0",
+  "publisher": "MMLTECH",
+  "homepage": "https://streamrsc.com",
+  "pricing": "Free",
+  "sponsor": {
+    "url": "https://paypal.me/mmltools"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmlTools/scss-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mmlTools/scss-manager/issues"
+  },
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Formatters",
+    "Linters",
+    "Other"
+  ],
+  "galleryBanner": {
+    "color": "#4F46E5",
+    "theme": "dark"
+  },
+  "qna": "marketplace",
+  "keywords": [
+    "scss",
+    "sass",
+    "refactor",
+    "ai",
+    "nesting",
+    "variables",
+    "lint",
+    "css"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:scss",
+    "onLanguage:sass",
+    "onView:scssManager.statisticsView"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "scssManager",
+          "title": "SCSS Manager",
+          "icon": "media/scss-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "scssManager": [
+        {
+          "id": "scssManager.statisticsView",
+          "name": "Statistics & Suggestions",
+          "icon": "media/scss-icon.svg",
+          "contextualTitle": "SCSS Manager"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "scssManager.statisticsView",
+        "contents": "No SCSS scan results yet.\n[Scan Project](command:scssManager.scanProject)\n[Open Settings](command:scssManager.openSettings)\n\nThe scanner indexes every .scss / .sass file in your workspace and suggests nesting, variable extraction, and duplicate consolidation."
+      }
+    ],
+    "commands": [
+      {
+        "command": "scssManager.scanProject",
+        "title": "SCSS: Scan Project",
+        "icon": "$(search)"
+      },
+      {
+        "command": "scssManager.refreshStatistics",
+        "title": "SCSS: Refresh Statistics",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "scssManager.applySuggestion",
+        "title": "SCSS: Apply Suggestion",
+        "icon": "$(check)"
+      },
+      {
+        "command": "scssManager.applyAllSafe",
+        "title": "SCSS: Apply All Safe Fixes",
+        "icon": "$(check-all)"
+      },
+      {
+        "command": "scssManager.aiRefactorSelection",
+        "title": "SCSS: AI Refactor Selection",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "scssManager.aiRefactorFile",
+        "title": "SCSS: AI Refactor Entire File",
+        "icon": "$(sparkle)"
+      },
+      {
+        "command": "scssManager.showSuggestionDetails",
+        "title": "SCSS: Show Suggestion Details"
+      },
+      {
+        "command": "scssManager.revealLocation",
+        "title": "SCSS: Reveal Location"
+      },
+      {
+        "command": "scssManager.openSettings",
+        "title": "SCSS: Open Settings"
+      },
+      {
+        "command": "scssManager.extractVariable",
+        "title": "SCSS: Extract Variable from Selection"
+      },
+      {
+        "command": "scssManager.nestSelection",
+        "title": "SCSS: Nest Selected Rules"
+      },
+      {
+        "command": "scssManager.minifyFile",
+        "title": "SCSS: Minify Current File",
+        "icon": "$(file-zip)",
+        "category": "SCSS"
+      },
+      {
+        "command": "scssManager.convertCssToScss",
+        "title": "SCSS: Convert CSS → SCSS",
+        "icon": "$(symbol-color)",
+        "category": "SCSS"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "scssManager.scanProject",
+          "when": "view == scssManager.statisticsView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "scssManager.refreshStatistics",
+          "when": "view == scssManager.statisticsView",
+          "group": "navigation@2"
+        },
+        {
+          "command": "scssManager.applyAllSafe",
+          "when": "view == scssManager.statisticsView",
+          "group": "navigation@3"
+        },
+        {
+          "command": "scssManager.openSettings",
+          "when": "view == scssManager.statisticsView",
+          "group": "1_settings"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "scssManager.applySuggestion",
+          "when": "view == scssManager.statisticsView && viewItem == suggestion",
+          "group": "inline@1"
+        },
+        {
+          "command": "scssManager.showSuggestionDetails",
+          "when": "view == scssManager.statisticsView && viewItem == suggestion",
+          "group": "inline@2"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "scssManager.aiRefactorSelection",
+          "when": "editorHasSelection && resourceLangId =~ /scss|sass/",
+          "group": "1_modification@10"
+        },
+        {
+          "command": "scssManager.extractVariable",
+          "when": "editorHasSelection && resourceLangId =~ /scss|sass/",
+          "group": "1_modification@11"
+        },
+        {
+          "command": "scssManager.nestSelection",
+          "when": "editorHasSelection && resourceLangId =~ /scss|sass/",
+          "group": "1_modification@12"
+        },
+        {
+          "command": "scssManager.minifyFile",
+          "when": "resourceLangId =~ /scss|sass/",
+          "group": "1_modification@13"
+        },
+        {
+          "command": "scssManager.convertCssToScss",
+          "when": "resourceLangId == css",
+          "group": "1_modification@14"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "scssManager.minifyFile",
+          "when": "resourceLangId =~ /scss|sass/",
+          "group": "navigation@1"
+        },
+        {
+          "command": "scssManager.convertCssToScss",
+          "when": "resourceLangId == css",
+          "group": "navigation@1"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "scssManager.convertCssToScss",
+          "when": "resourceExtname == .css",
+          "group": "7_modification"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "scssManager.applySuggestion",
+          "when": "false"
+        },
+        {
+          "command": "scssManager.showSuggestionDetails",
+          "when": "false"
+        },
+        {
+          "command": "scssManager.revealLocation",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SCSS Manager",
+      "properties": {
+        "scssManager.scan.include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/*.scss",
+            "**/*.sass"
+          ],
+          "description": "Glob patterns of files to include in the scan."
+        },
+        "scssManager.scan.exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/node_modules/**",
+            "**/vendor/**",
+            "**/dist/**",
+            "**/build/**",
+            "**/.next/**",
+            "**/.nuxt/**"
+          ],
+          "description": "Glob patterns of files to exclude from the scan."
+        },
+        "scssManager.scan.autoScanOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically re-scan the project when an SCSS file is saved."
+        },
+        "scssManager.variables.minOccurrences": {
+          "type": "number",
+          "default": 3,
+          "minimum": 2,
+          "description": "Minimum number of times a value must appear before it is suggested for extraction into a variable."
+        },
+        "scssManager.variables.targetFile": {
+          "type": "string",
+          "default": "",
+          "description": "Optional file (workspace-relative) where extracted variables will be written. If empty, variables are placed at the top of the file where they appear."
+        },
+        "scssManager.variables.namingStrategy": {
+          "type": "string",
+          "enum": [
+            "semantic-ai",
+            "literal",
+            "hash"
+          ],
+          "enumDescriptions": [
+            "Use AI to suggest semantic names (e.g. $brand-primary)",
+            "Generate a literal-derived name (e.g. $color-3498db)",
+            "Use a short hash (e.g. $c-a3f1)"
+          ],
+          "default": "semantic-ai",
+          "description": "How to name extracted variables."
+        },
+        "scssManager.nesting.maxDepth": {
+          "type": "number",
+          "default": 4,
+          "minimum": 2,
+          "maximum": 8,
+          "description": "Maximum nesting depth the analyzer will suggest creating."
+        },
+        "scssManager.nesting.minChildren": {
+          "type": "number",
+          "default": 2,
+          "minimum": 2,
+          "description": "Minimum number of descendant selectors required before a parent rule is suggested for nesting."
+        },
+        "scssManager.duplicates.minSharedDeclarations": {
+          "type": "number",
+          "default": 3,
+          "minimum": 2,
+          "description": "Minimum number of identical declarations two selectors must share before being flagged as duplicates."
+        },
+        "scssManager.duplicates.similarityThreshold": {
+          "type": "number",
+          "default": 0.85,
+          "minimum": 0.5,
+          "maximum": 1,
+          "description": "Jaccard similarity (0.0-1.0) above which two rules are considered near-duplicates."
+        },
+        "scssManager.ai.languageModel": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "copilot-claude",
+            "copilot-gpt-4o",
+            "copilot-gpt-4"
+          ],
+          "default": "auto",
+          "description": "Preferred language model vendor/family for AI features."
+        },
+        "scssManager.ai.enableAutoNaming": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use the language model to propose semantic variable names during extraction."
+        },
+        "scssManager.ai.confirmBeforeApply": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a diff/preview confirmation before applying any AI-generated refactor."
+        },
+        "scssManager.minify.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable the SCSS minifier (compile + compress)."
+        },
+        "scssManager.minify.autoOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically minify SCSS/SASS files after save."
+        },
+        "scssManager.minify.outputPath": {
+          "type": "string",
+          "default": "",
+          "description": "Where to write minified output. Empty = next to the source. Relative paths are resolved against the workspace folder. End with .css for a fixed file, otherwise treated as a directory."
+        },
+        "scssManager.minify.suffix": {
+          "type": "string",
+          "default": ".min",
+          "description": "Suffix appended to the base filename before .css (e.g. style.scss → style.min.css). Ignored when outputPath is a single .css file."
+        },
+        "scssManager.minify.sourceMap": {
+          "type": "boolean",
+          "default": false,
+          "description": "Also write a .css.map source map next to the minified output."
+        },
+        "scssManager.convert.outputPath": {
+          "type": "string",
+          "default": "",
+          "description": "Where to write the converted .scss file. Empty = next to the source. Relative paths are resolved against the workspace folder. End with .scss for a fixed file, otherwise treated as a directory."
+        },
+        "scssManager.convert.overwriteExisting": {
+          "type": "boolean",
+          "default": false,
+          "description": "Overwrite an existing .scss file at the output location without prompting."
+        },
+        "scssManager.convert.openAfter": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open the generated .scss file in the editor after conversion."
+        },
+        "scssManager.convert.variableMinOccurrences": {
+          "type": "number",
+          "default": 3,
+          "minimum": 2,
+          "description": "Minimum number of occurrences before a literal value (color/length/time) is hoisted to a $variable during CSS → SCSS conversion."
+        }
+      }
+    },
+    "configurationDefaults": {
+      "[scss]": {
+        "editor.formatOnSave": false
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "dependencies": {
+    "postcss": "^8.4.47",
+    "postcss-scss": "^4.0.9",
+    "sass": "^1.99.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.130",
+    "@types/vscode": "~1.90.0",
+    "@vscode/vsce": "^3.9.1",
+    "typescript": "^5.9.3"
+  }
+}
